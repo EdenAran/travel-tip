@@ -13,14 +13,18 @@
     <header class="main-header">
         <div class="logo"></div>
         <div class="search">
-            <input type="text">
-            <button>a</button>
-            <button></button>
+            <form class="search-location">
+                <input type="text">
+                <button class="go-location-btn">Go</button>
+            </form>
+            <button class="my-location-btn">My Location</button>
         </div>
     </header>
 
     <main class="main-container">
-        <section class="main-location"></section>
+        <section class="main-location">
+            <button class="copy-location-btn">Copy Location</button>
+        </section>
         <section class="main-content">
             <div class="info-container">
                 <div class="weather"></div>
@@ -39,6 +43,9 @@
         <button class="cancel-btn">Cancel</button>
     </aside>
 
+    <input type="text" class="copy-url">
+
+    <script src="lib/axios.js"></script>
     <script type="module" src="js/mapController.js"></script>
 </body>
 

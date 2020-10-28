@@ -56,6 +56,11 @@ body {
     left: calc(50vw - 200px);
 }
 
+.copy-url{
+    height:0;
+    /* width:0; */
+    opacity:0;
+}
 .hide{
     display: none;
 }
