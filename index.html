@@ -23,7 +23,7 @@
 
     <main class="main-container">
         <section class="main-location">
-            <h1 class="title-location"></h1>
+            <h1 class="title-location">Location: <span></span></h1>
             <button class="copy-location-btn">Copy Location</button>
         </section>
         <section class="main-content">
@@ -36,11 +36,11 @@
                 </div>
                 <div class="location-info">
                     <div class="locations-container">
-                        
-                            
-                        </div>
+
+
                     </div>
                 </div>
+            </div>
             </div>
             <div class="map-container">
                 <div id="map" style="width: 500px; height: 500px;">
@@ -51,8 +51,10 @@
     <aside class="modal location-name hide">
         <h4>Choose a name</h4>
         <input type="text">
-        <button class="save-btn">Save</button>
-        <button class="cancel-btn">Cancel</button>
+        <div class="btn-container">
+            <button class="save-btn">Save</button>
+            <button class="cancel-btn">Cancel</button>
+        </div>
     </aside>
 
     <input type="text" class="copy-url">

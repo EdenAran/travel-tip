@@ -6,7 +6,8 @@ export const locationService = {
     getLocations,
     getLastLocation,
     getLocationById,
-    deletLocationById
+    deletLocationById,
+    getNextId
 }
 
 
@@ -58,4 +59,8 @@ function deletLocationById(id){
         gNextId = 101;
         storageService.save('id', gNextId)
     };
+}
+
+function getNextId(){
+    return gNextId;
 }

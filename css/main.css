@@ -155,10 +155,14 @@ input {
     align-items: center;
     width:400px;
     height:200px;
-    background-color: lightcoral;
+    background-color: #bcebd7;
     position: absolute;
     top: calc(50vh - 100px);
     left: calc(50vw - 200px);
+}
+
+.btn-container{
+    margin-top: 20px;
 }
 
 .copy-url{
