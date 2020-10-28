@@ -10,19 +10,27 @@ window.onload = () => {
         .then(pos => {
             initMap(pos.coords.latitude, pos.coords.longitude)
                 .then(() => {
-                    renderInfo(pos);
                     gMap.addListener("dblclick", (ev) => {
                         getLocationName()
                             .then((name) => {
                                 locationService.setLocation(ev.latLng.lat(), ev.latLng.lng(), name)
                                 addMarker({ lat: ev.latLng.lat(), lng: ev.latLng.lng() }, name)
                                 renderWeather(ev.latLng.lat(), ev.latLng.lng());
-                                renderInfo(pos);
                             })
                     })
                     locationService.initLocation()
                         .then(locations => {
                             locations.forEach(location => { addMarker({ lat: location.lat, lng: location.lng }, location.name) })
+                            document.querySelectorAll('.go-btn').forEach(btn => btn.addEventListener('click', (ev) => {
+                                const locationId = +ev.target.dataset.id
+                                const location = locationService.getLocationById(locationId);
+                                panTo(location.lat, location.lng)
+                            }))
+                            document.querySelectorAll('.delete-location-btn').forEach(btn => btn.addEventListener('click', (ev) => {
+                                const locationId = +ev.target.dataset.id
+                                locationService.deletLocationById(locationId);
+                                renderInfoTable();
+                            }))
                         })
                 })
                 .catch(err => console.log(err, 'INIT MAP ERROR'));
@@ -56,8 +64,9 @@ document.querySelector('.copy-location-btn').addEventListener('click', () => {
     document.execCommand("copy");
 })
 
+
+
 export function initMap(lat, lng) {
-    console.log('lat', lat, 'lng', lng)
     return _connectGoogleApi()
         .then(() => {
             const copyLat = new URLSearchParams(`${window.location.search}`).get('lat')
@@ -82,12 +91,12 @@ function addMarker(loc, title) {
         map: gMap,
         title
     });
+    renderInfoTable();
     return marker;
 }
 
 function panTo(lat, lng) {
     var laLatLng = new google.maps.LatLng(lat, lng);
-    console.log('A', laLatLng)
     gMap.panTo(laLatLng);
 }
 
@@ -139,10 +148,10 @@ function onSearchAddress() {
             const lat = res.data.results[0].geometry.location.lat;
             const lng = res.data.results[0].geometry.location.lng;
             const name = res.data.results[0].formatted_address;
-            addMarker({ lat, lng }, name);
             panTo(lat, lng);
             locationService.setLocation(lat, lng, name)
             elSearch.value = '';
+            addMarker({ lat, lng }, name);
         })
 }
 
@@ -158,11 +167,21 @@ function renderWeather(lat, lng) {
         })
 }
 
-function renderInfo(position) {
-    document.getElementById("latitude").innerHTML = position.coords.latitude;
-    document.getElementById("longitude").innerHTML = position.coords.longitude;
-    document.getElementById("accuracy").innerHTML = position.coords.accuracy;
+function renderInfoTable() {
+    const strHTML = locationService.getLocations().map(location => `
+    <div class="location-card">
+                        <h4>${location.name}</h4>
+                        <div class="location-btns">
+                        <button data-id="${location.id}" class="go-btn">Go</button>
+                        <button data-id="${location.id}" class="delete-location-btn">Delete</button>
+                        </div>
+                    </div>
+    `).join('')
+    document.querySelector('.locations-container').innerHTML = strHTML;
+    // document.getElementById("latitude").innerHTML = position.coords.latitude;
+    // document.getElementById("longitude").innerHTML = position.coords.longitude;
+    // document.getElementById("accuracy").innerHTML = position.coords.accuracy;
 
-    let date = new Date(position.timestamp);
-    document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    // let date = new Date(position.timestamp);
+    // document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }
