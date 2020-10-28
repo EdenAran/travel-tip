@@ -149,6 +149,7 @@ function onSearchAddress() {
 function renderWeather(lat, lng) {
     axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=cc53ce7e40aa051e00744f72dbaa532c`)
         .then(res => {
+            document.querySelector('.weather .weather-title').innerText = `The Weather is:`;
             document.querySelector('.weather .description').innerText = res.data.weather[0].description;
             const elTemp = document.querySelector('.weather .temp');
             elTemp.querySelector('.temp_min').innerText = `The temperature: ${res.data.main.temp_min} - `;
@@ -162,6 +163,6 @@ function renderInfo(position) {
     document.getElementById("longitude").innerHTML = position.coords.longitude;
     document.getElementById("accuracy").innerHTML = position.coords.accuracy;
 
-    var date = new Date(position.timestamp);
+    let date = new Date(position.timestamp);
     document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }
