@@ -4,7 +4,9 @@ export const locationService = {
     setLocation,
     initLocation,
     getLocations,
-    getLastLocation
+    getLastLocation,
+    getLocationById,
+    deletLocationById
 }
 
 
@@ -12,11 +14,11 @@ export const locationService = {
 var gLocations;
 var gNextId;
 
-function initLocation(){
+function initLocation() {
     gLocations = storageService.load('locations');
     gNextId = storageService.load('id');
-    if(!gLocations) gLocations = [];
-    if(!gNextId) gNextId = 101;
+    if (!gLocations) gLocations = [];
+    if (!gNextId) gNextId = 101;
     return Promise.resolve(gLocations)
 }
 
@@ -31,16 +33,29 @@ function setLocation(lat, lng, name = '', weather = '', createdAt = '', updatedA
         updatedAt
     }
     gLocations.unshift(location)
-    console.log('gLocations:', gLocations)
     storageService.save('locations', gLocations)
     storageService.save('id', gNextId)
 }
 
-function getLastLocation(){
+function getLastLocation() {
     console.log(gLocations)
     return gLocations[0];
 }
 
-function getLocations(){
+function getLocations() {
     return gLocations;
+}
+
+function getLocationById(id) {
+    return gLocations.find(location => location.id === id);
+}
+
+function deletLocationById(id){
+    const idx = gLocations.findIndex(location => location.id === id);
+    gLocations.splice(idx, 1)
+    storageService.save('locations', gLocations)
+    if(!gLocations.length) {
+        gNextId = 101;
+        storageService.save('id', gNextId)
+    };
 }

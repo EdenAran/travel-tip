@@ -102,10 +102,25 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 20px 0;
 }
 
-.location-info table td {
-    padding: 10px 70px;
+.locations-container{
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 80%;
+    height:100%;
+}
+
+.location-card{
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 5px;
+    height:50px;
 }
 
 .map-container{
@@ -131,9 +146,9 @@ input {
 
 .copy-url{
     height:0;
-    /* width:0; */
     opacity:0;
 }
 .hide{
     display: none;
 }
+
