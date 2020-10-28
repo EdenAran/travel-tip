@@ -1,15 +1,68 @@
+@font-face {
+    font-family: ABeeZee;
+    src: url(../fonts/ABeeZee-Regular.ttf);
+}
+
 * {
     box-sizing: border-box;
+}
+
+html {
+    font-family: ABeeZee;
 }
 
 body {
     margin: 0;
 }
 
+button {
+    font-family: ABeeZee;
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+input {
+    border: none;
+    outline: none;
+}
+
 .main-header {
     display: flex;
+    justify-content: space-between;
+    align-items: center;
     height: 100px;
-    background-color: blueviolet;
+    background-color: #1d3557;
+}
+
+.logo {
+    margin-inline-start: 5%;
+    color: #f1faee;
+    font-size: 2rem;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+    margin-inline-end: 5%;
+}
+
+.search input {
+    color: #f1faee;
+    font-family: ABeeZee;
+    font-size: 1.2em;
+    height: 40px;
+}
+
+.search .go-location-btn, .my-location-btn {
+    background-color: rgba(128, 128, 128, .5);
+    height: 40px;
+    padding: 0 30px;
+    margin: 0 10px;
+}
+
+.search .my-location-btn {
+
 }
 
 .main-container {
@@ -19,11 +72,11 @@ body {
 
 .main-location {
     height: 100px;
-    background-color: aqua;
+    background-color: #457b9d;
 }
 
 .main-content{
-    height:calc(100vh - 250px);
+    height:calc(100vh - 200px);
     display: flex;
     background-color: beige;
 }
@@ -35,7 +88,7 @@ body {
 }
 
 .weather {
-    background-color: lightblue;
+    background-color: #a8dadc;
     height: 50%;
     display: flex;
     flex-direction: column;
@@ -44,7 +97,7 @@ body {
 }
 
 .location-info {
-    background-color: lightcoral;
+    background-color: #e63946;
     height: 50%;
     display: flex;
     justify-content: center;
@@ -56,7 +109,7 @@ body {
 }
 
 .map-container{
-    background-color: blueviolet;
+    background-color: #f1faee;
     width: 50%;
     display: flex;
     justify-content: center;
