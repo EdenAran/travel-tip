@@ -1,21 +1,31 @@
 import { mapService } from './services/mapService.js'
+import { locationService } from './services/location-service.js'
 
 var gMap;
-console.log('Main!');
+
+
+
 
 mapService.getLocs()
     .then(locs => console.log('locs', locs))
 
 window.onload = () => {
-    initMap()
-        .then(() => {
 
-            addMarker({ lat: 32.0749831, lng: 34.9120554 });
-        })
-        .catch(console.log('INIT MAP ERROR'));
     getPosition()
         .then(pos => {
-
+            initMap(pos.coords.latitude, pos.coords.longitude)
+                .then(() => {
+                    locationService.initLocation();
+                    gMap.addListener("dblclick", (ev) => {
+                        getLocationName()
+                            .then((name) => {
+                                locationService.setLocation(ev.latLng.lat(), ev.latLng.lng(), name)
+                                addMarker({ lat: ev.latLng.lat(), lng: ev.latLng.lng() }, name)
+                            })
+                    })
+                    addMarker({ lat: pos.coords.latitude, lng: pos.coords.longitude });
+                })
+                .catch(console.log('INIT MAP ERROR'));
             console.log('User position is:', pos.coords);
         })
         .catch(err => {
@@ -28,11 +38,6 @@ document.querySelector('.btn').addEventListener('click', (ev) => {
     panTo(35.6895, 139.6917);
 })
 
-window.onload= initMap();
-
-
-
-
 export function initMap(lat = 32.0749831, lng = 34.9120554) {
     console.log('InitMap');
     return _connectGoogleApi()
@@ -41,17 +46,18 @@ export function initMap(lat = 32.0749831, lng = 34.9120554) {
             gMap = new google.maps.Map(
                 document.querySelector('#map'), {
                 center: { lat, lng },
-                zoom: 15
+                zoom: 15,
+                disableDoubleClickZoom: true
             })
             console.log('Map!', gMap);
         })
 }
 
-function addMarker(loc) {
+function addMarker(loc, title) {
     var marker = new google.maps.Marker({
         position: loc,
         map: gMap,
-        title: 'Hello World!'
+        title
     });
     return marker;
 }
@@ -85,4 +91,23 @@ function _connectGoogleApi() {
 }
 
 
+function getLocationName() {
+    toggleModal()
+    const elSave = document.querySelector('.modal .save-btn')
+    const elCancel = document.querySelector('.modal .cancel-btn')
+    return new Promise((resolve, reject) => {
+        elSave.addEventListener('click', () => resolve())
+        elCancel.addEventListener('click', () => reject())
+    })
+        .then(() => {
+            toggleModal();
+            return document.querySelector('.modal input').value
+        }
+        )
+        .catch(() => { toggleModal() })
 
+}
+
+function toggleModal() {
+    document.querySelector('.modal').classList.toggle('hide')
+}
