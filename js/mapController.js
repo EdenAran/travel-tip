@@ -10,11 +10,14 @@ window.onload = () => {
         .then(pos => {
             initMap(pos.coords.latitude, pos.coords.longitude)
                 .then(() => {
+                    renderInfo(pos);
                     gMap.addListener("dblclick", (ev) => {
                         getLocationName()
                             .then((name) => {
                                 locationService.setLocation(ev.latLng.lat(), ev.latLng.lng(), name)
                                 addMarker({ lat: ev.latLng.lat(), lng: ev.latLng.lng() }, name)
+                                renderWeather(ev.latLng.lat(), ev.latLng.lng());
+                                renderInfo(pos);
                             })
                     })
                     locationService.initLocation()
@@ -141,4 +144,24 @@ function onSearchAddress() {
             locationService.setLocation(lat, lng, name)
             elSearch.value = '';
         })
+}
+
+function renderWeather(lat, lng) {
+    axios.get(`http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&APPID=cc53ce7e40aa051e00744f72dbaa532c`)
+        .then(res => {
+            document.querySelector('.weather .description').innerText = res.data.weather[0].description;
+            const elTemp = document.querySelector('.weather .temp');
+            elTemp.querySelector('.temp_min').innerText = `The temperature: ${res.data.main.temp_min} - `;
+            elTemp.querySelector('.temp_max').innerText = `${res.data.main.temp_max}`;
+            document.querySelector('.weather .humidity').innerText = `The humidity: ${res.data.main.humidity}`;
+        })
+}
+
+function renderInfo(position) {
+    document.getElementById("latitude").innerHTML = position.coords.latitude;
+    document.getElementById("longitude").innerHTML = position.coords.longitude;
+    document.getElementById("accuracy").innerHTML = position.coords.accuracy;
+
+    var date = new Date(position.timestamp);
+    document.getElementById("timestamp").innerHTML = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
 }

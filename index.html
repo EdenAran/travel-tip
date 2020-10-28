@@ -27,8 +27,31 @@
         </section>
         <section class="main-content">
             <div class="info-container">
-                <div class="weather"></div>
-                <div class="location-info"></div>
+                <div class="weather">
+                    <h2 class="description"></h2>
+                    <h3 class="temp"><span class="temp_min"></span><span class="temp_max"></span></h3>
+                    <h3 class="humidity"></h3>
+                </div>
+                <div class="location-info">
+                    <table border="1">
+                        <tr>
+                            <td>Latitude</td>
+                            <td id="latitude"></td>
+                        </tr>
+                        <tr>
+                            <td>Longitude</td>
+                            <td id="longitude"></td>
+                        </tr>
+                        <tr>
+                            <td>Accuracy</td>
+                            <td id="accuracy"></td>
+                        </tr>
+                        <tr>
+                            <td>Timestamp</td>
+                            <td id="timestamp"></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="map-container">
                 <div id="map" style="width: 500px; height: 500px;">
