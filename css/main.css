@@ -35,8 +35,13 @@ input {
     background-color: #1d3557;
 }
 
-.logo {
+.logo-container {
+    display: flex;
+    align-items: center;
     margin-inline-start: 5%;
+}
+
+.logo {
     color: #f1faee;
     font-size: 2rem;
 }
